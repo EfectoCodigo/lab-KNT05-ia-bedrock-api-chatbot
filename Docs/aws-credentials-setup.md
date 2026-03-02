@@ -14,6 +14,10 @@ Instead of attaching full Bedrock access, create a minimal policy:
 
 **Go to IAM → Policies → Create Policy → JSON**
 
+#### Use AWS Keys
+
+**Policy Name:** `BedrockChatbotInvokeOnly`
+
 ```json
 {
   "Version": "2012-10-17",
@@ -45,9 +49,40 @@ Instead of attaching full Bedrock access, create a minimal policy:
 }
 ```
 
-**Policy Name:** `BedrockChatbotInvokeOnly`
+**Policy Name:** `BedrockBearerTokenChatbotInvokeOnly`
 
-This policy:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowBearerTokenAuth",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:CallWithBearerToken"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "BedrockInvokeOnly",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream"
+      ],
+      "Resource": [
+        "arn:aws:bedrock:*::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0",
+        "arn:aws:bedrock:*::foundation-model/anthropic.claude-3-5-haiku-20241022-v1:0",
+        "arn:aws:bedrock:*::foundation-model/mistral.ministral-3b-3-0",
+        "arn:aws:bedrock:*::foundation-model/google.gemma-3-4b",
+        "arn:aws:bedrock:*::foundation-model/mistral.voxtral-mini-1-0"
+      ]
+    }
+  ]
+}
+```
+
+This policies:
 - ✅ Only allows invoking specific Claude models
 - ✅ Cannot create/delete resources
 - ✅ Cannot access other AWS services

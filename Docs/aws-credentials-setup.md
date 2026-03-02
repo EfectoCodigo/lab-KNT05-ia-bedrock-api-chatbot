@@ -77,6 +77,14 @@ Instead of attaching full Bedrock access, create a minimal policy:
         "arn:aws:bedrock:*::foundation-model/google.gemma-3-4b",
         "arn:aws:bedrock:*::foundation-model/mistral.voxtral-mini-1-0"
       ]
+    },
+    {
+      "Sid": "ListModelsOnly",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:ListFoundationModels"
+      ],
+      "Resource": "*"
     }
   ]
 }
